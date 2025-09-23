@@ -5,12 +5,19 @@ Completely dynamic - no hardcoded values.
 """
 
 import pandas as pd
-import tkinter as tk
-from tkinter import filedialog, messagebox
 import sys
 import os
 from tabulate import tabulate
 import re
+
+# Make tkinter optional for server deployment
+try:
+    import tkinter as tk
+    from tkinter import filedialog, messagebox
+    TKINTER_AVAILABLE = True
+except ImportError:
+    # Running on server without GUI support
+    TKINTER_AVAILABLE = False
 
 def select_file(title="Select Excel File"):
     """
@@ -22,6 +29,10 @@ def select_file(title="Select Excel File"):
     Returns:
         str: Selected file path or None if cancelled
     """
+    if not TKINTER_AVAILABLE:
+        # Running on server - tkinter not available
+        return None
+
     # Create a root window but hide it
     root = tk.Tk()
     root.withdraw()
@@ -48,6 +59,16 @@ def select_multiple_files():
     Returns:
         dict: Dictionary with file paths for different data types
     """
+    if not TKINTER_AVAILABLE:
+        # Running on server - return empty file dict
+        return {
+            'summary': None,
+            'card_issuance': None,
+            'international_file': None,
+            'domestic_file': None,
+            'dispute_file': None
+        }
+
     files = {
         'summary': None,
         'card_issuance': None,
