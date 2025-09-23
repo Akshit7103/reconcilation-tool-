@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <main class="container results">
+        <section class="panel hero">
+            <div class="hero-header">
+                <h1>Fee Analysis Summary</h1>
+                <p class="intro">All calculations reuse the desktop reconciliation logic. Review the structured highlights below.</p>
+            </div>
+            <div class="metrics">
+                <div class="metric-card">
+                    <span class="metric-label">Sheets Analysed</span>
+                    <span class="metric-value">{{ report.summary.sheet_count }}</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Fee Mappings</span>
+                    <span class="metric-value">{{ report.summary.total_mappings }}</span>
+                </div>
+                <div class="metric-card emphasis">
+                    <span class="metric-label">Estimated Total (INR)</span>
+                    <span class="metric-value">{{ report.summary.total_final_amount_display }}</span>
+                </div>
+            </div>
+        </section>
+
+        {% if report.warnings %}
+        <section class="panel warning">
+            <h2>Warnings</h2>
+            <ul>
+                {% for warning in report.warnings %}
+                <li>{{ warning }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+
+        <section class="panel split">
+            {% if report.card %}
+            <div class="card-pane">
+                <h2>Card Issuance Snapshot</h2>
+                <p class="stat">Total Cards: <strong>{{ report.card.total_cards | default(0) | int }}</strong></p>
+                {% if report.card.monthly_data %}
+                <table class="data-table compact">
+                    <thead>
+                        <tr>
+                            <th>Period</th>
+                            <th>Cards</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in report.card.monthly_data %}
+                        <tr>
+                            <td>{{ entry.period }}</td>
+                            <td>{{ entry.cards }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="muted">No periodic breakdown detected.</p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% if report.transactions %}
+            <div class="card-pane">
+                <h2>Transaction Overview</h2>
+                <div class="transaction-grid">
+                    {% for item in report.transactions.entries %}
+                    <div class="transaction-card">
+                        <span class="transaction-label">{{ item.label }}</span>
+                        <span class="transaction-amount">{{ item.amount_display }}</span>
+                        <span class="transaction-volume">Volume: {{ item.volume }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </section>
+
+        {% if report.sheets %}
+        <section class="panel">
+            <h2>Fee Detail by Sheet</h2>
+            {% for sheet in report.sheets %}
+            <article class="sheet-block">
+                <header class="sheet-header">
+                    <h3>{{ sheet.name }}</h3>
+                </header>
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fee Type</th>
+                                <th>Rate Chart</th>
+                                <th>Calculation Method</th>
+                                <th>Calculated Amount</th>
+                                <th>Exchange Rate</th>
+                                <th>Final Amount (INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in sheet.rows %}
+                            <tr>
+                                <td>{{ row.fee_type }}</td>
+                                <td>{{ row.rate_chart }}</td>
+                                <td>{{ row.calculation_method }}</td>
+                                <td>{{ row.calculated_amount_display }}</td>
+                                <td>
+                                    {% if row.exchange_rate %}
+                                        {{ row.exchange_rate }}
+                                    {% else %}
+                                        &mdash;
+                                    {% endif %}
+                                </td>
+                                <td>{{ row.final_amount_display }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+        {% else %}
+        <section class="panel">
+            <p class="muted">No fee mappings were identified in the provided summary workbook.</p>
+        </section>
+        {% endif %}
+
+        <section class="panel actions">
+            <a href="{{ url_for('index') }}" class="primary">Run Another Analysis</a>
+        </section>
+    </main>
+</body>
+</html>
+

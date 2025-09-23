@@ -1,0 +1,48 @@
+REPORT ID:  VSS-110                                         VISANET SETTLEMENT SERVICE                        PAGE:              1  
+ REPORTING FOR:      000000 FBL 000000 INT            INTERNATIONAL SETTLEMENT SERVICE                     PROC DATE:   05AUG25  
+ ROLLUP TO:          0000001 ABC BANK INTL                 SETTLEMENT SUMMARY REPORT                         REPORT DATE: 05AUG25  
+ FUNDS XFER ENTITY:  0000001 ABC BANKINTL                                                                                         
+                                                                                                                                     
+ SETTLEMENT CURRENCY:  INR                                                                                                           
+                                                                                                                                     
+                                                                                                                                     
+                                                                       CREDIT                     DEBIT                     TOTAL    
+                                              COUNT                    AMOUNT                    AMOUNT                    AMOUNT    
+                                                                                                                                     
+ INTERCHANGE VALUE                                                                                                                   
+                                                                                                                                     
+    TOTAL ACQUIRER                                0                      0.00                      0.00                      0.00    
+    TOTAL ISSUER                                 10                 12,100.00              1,540,000.00              1,527,900.00DB  
+    TOTAL OTHER                                   0                      0.00                      0.00                      0.00    
+                                                                                                                                     
+    TOTAL INTERCHANGE VALUE                      10                 12,100.00              1,540,000.00              1,527,900.00DB  
+
+                                                                                                                                     
+ REIMBURSEMENT FEES                                                                                                                  
+                                                                                                                                     
+    TOTAL ACQUIRER                                                       0.00                      0.00                      0.00    
+    TOTAL ISSUER                                                     2,000.00                    500.00                  1,500.00CR  
+    TOTAL OTHER                                                          0.00                      0.00                      0.00    
+                                                                                                                                     
+    TOTAL REIMBURSEMENT FEES                                          2,000.00                    500.00                  1,500.00CR  
+
+                                                                                                                                     
+ VISA CHARGES                                                                                                                        
+                                                                                                                                     
+    TOTAL ACQUIRER                                                       0.00                      0.00                      0.00    
+    TOTAL ISSUER                                                       100.00                 11,000.00                 10,900.00DB  
+    TOTAL OTHER                                                          0.00                      0.00                      0.00    
+                                                                                                                                     
+    TOTAL VISA CHARGES                                                 100.00                 11,000.00                 10,900.00DB  
+                                                                                                                                     
+ TOTAL                                                                                                                               
+                                                                                                                                     
+    TOTAL ACQUIRER                                                       0.00                      0.00                      0.00    
+    TOTAL ISSUER                                                    14,200.00              1,551,500.00                 1,540,300DB  
+    TOTAL OTHER                                                          0.00                      0.00                      0.00    
+                                                                                                                                     
+    NET SETTLEMENT AMOUNT                                           14,200.00              1,551,500.00                 1,537,300DB 
+                                                                                                                                     
+                                                                                                                                     
+                                                   *** END OF VSS-110 REPORT ***                                                     
+
