@@ -2,9 +2,7 @@ services:
   - type: web
     name: card-reco-tool
     env: python
+    runtime: python-3.11.7
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 app:app
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.7
