@@ -19,31 +19,49 @@
         {% endif %}
 
         <form method="post" enctype="multipart/form-data" class="rates-form">
-            <div class="form-grid">
-                <div class="field required">
-                    <label for="summary_file">Summary File (required)</label>
-                    <input type="file" id="summary_file" name="summary_file" accept=".xls,.xlsx" required>
-                    <small class="file-hint">Primary fee rate workbook</small>
-                </div>
+            <div class="form-section">
+                <h3>Required Files</h3>
+                <div class="form-grid">
+                    <div class="field required">
+                        <label for="summary_file">Summary File <span class="required">*</span></label>
+                        <input type="file" id="summary_file" name="summary_file" accept=".xls,.xlsx" required>
+                        <small class="file-hint">Primary fee rate workbook with calculation formulas</small>
+                    </div>
 
-                <div class="field">
-                    <label for="card_file">Card Issuance Report</label>
-                    <input type="file" id="card_file" name="card_file" accept=".xls,.xlsx">
+                    <div class="field">
+                        <label for="invoice_file">Invoice File (for VISA Amount comparison)</label>
+                        <input type="file" id="invoice_file" name="invoice_file" accept=".xls,.xlsx">
+                        <small class="file-hint"><strong>Recommended:</strong> Excel file containing actual invoice amounts for comparison. Without this, VISA Amount column will show "N/A".</small>
+                    </div>
                 </div>
+            </div>
 
-                <div class="field">
-                    <label for="international_file">International Transactions</label>
-                    <input type="file" id="international_file" name="international_file" accept=".xls,.xlsx">
-                </div>
+            <div class="form-section">
+                <h3>Optional Data Files</h3>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="card_file">Card Issuance Report</label>
+                        <input type="file" id="card_file" name="card_file" accept=".xls,.xlsx">
+                        <small class="file-hint">For card-based fee calculations</small>
+                    </div>
 
-                <div class="field">
-                    <label for="domestic_file">Domestic Transactions</label>
-                    <input type="file" id="domestic_file" name="domestic_file" accept=".xls,.xlsx">
-                </div>
+                    <div class="field">
+                        <label for="international_file">International Transactions</label>
+                        <input type="file" id="international_file" name="international_file" accept=".xls,.xlsx">
+                        <small class="file-hint">For international transaction fees</small>
+                    </div>
 
-                <div class="field">
-                    <label for="dispute_file">VROL / Dispute Transactions</label>
-                    <input type="file" id="dispute_file" name="dispute_file" accept=".xls,.xlsx">
+                    <div class="field">
+                        <label for="domestic_file">Domestic Transactions</label>
+                        <input type="file" id="domestic_file" name="domestic_file" accept=".xls,.xlsx">
+                        <small class="file-hint">For domestic transaction fees</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="dispute_file">VROL / Dispute Transactions</label>
+                        <input type="file" id="dispute_file" name="dispute_file" accept=".xls,.xlsx">
+                        <small class="file-hint">For dispute-related fees</small>
+                    </div>
                 </div>
             </div>
 
@@ -55,17 +73,35 @@
         {% if report %}
             <section class="rate-dashboard">
                 <div class="rate-metrics">
-                    <div class="metric-card">
-                        <span class="metric-label">Sheets Analysed</span>
-                        <span class="metric-value">{{ report.summary.sheet_count }}</span>
+                    <div class="metric-card reconciled">
+                        <span class="metric-label">Amount Reconciled</span>
+                        <span class="metric-value-large">{{ report.summary.amount_reconciled_display }}</span>
+                        <div class="metric-subgrid">
+                            <div class="metric-sub">
+                                <span class="metric-sub-label">Fee Reconciled</span>
+                                <span class="metric-sub-value">{{ report.summary.fee_reconciled_display }}</span>
+                            </div>
+                            <div class="metric-sub">
+                                <span class="metric-sub-label">Item Reconciled</span>
+                                <span class="metric-sub-value">{{ report.summary.matched_items }}/{{ report.summary.total_visa_items }}</span>
+                            </div>
+                            <div class="metric-sub">
+                                <span class="metric-sub-label">Match %</span>
+                                <span class="metric-sub-value">{{ report.summary.amount_match_display }}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="metric-card">
                         <span class="metric-label">Fee Mappings</span>
                         <span class="metric-value">{{ report.summary.total_mappings }}</span>
                     </div>
                     <div class="metric-card emphasis">
-                        <span class="metric-label">Estimated Total (INR)</span>
+                        <span class="metric-label">Calculated Total</span>
                         <span class="metric-value">{{ report.summary.total_final_amount_display }}</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">VISA Total</span>
+                        <span class="metric-value">{{ report.summary.total_visa_amount_display }}</span>
                     </div>
                 </div>
 
@@ -141,7 +177,9 @@
                                         <th>Calculation Method</th>
                                         <th>Calculated Amount</th>
                                         <th>Exchange Rate</th>
-                                        <th>Final Amount (INR)</th>
+                                        <th>Calculated Value (INR)</th>
+                                        <th>VISA Amount (INR)</th>
+                                        <th>% Difference</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,7 +190,9 @@
                                         <td>{{ row.calculation_method }}</td>
                                         <td>{{ row.calculated_amount_display }}</td>
                                         <td>{% if row.exchange_rate %}{{ row.exchange_rate }}{% else %}&mdash;{% endif %}</td>
-                                        <td>{{ row.final_amount_display }}</td>
+                                        <td class="{% if row.final_amount_display == 'Missing' %}text-warning{% endif %}">{{ row.final_amount_display }}</td>
+                                        <td>{{ row.visa_amount_display }}</td>
+                                        <td class="diff-{{ row.diff_status }}">{{ row.percentage_diff_display }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

@@ -312,6 +312,61 @@ table th {
     font-weight: 700;
 }
 
+.metric-detail {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.metric-submatch {
+    font-size: 0.7rem;
+    color: #16a34a;
+    font-weight: 600;
+    margin-top: 0.2rem;
+    display: block;
+}
+
+/* Restructured reconciled card styling */
+.metric-card.reconciled {
+    padding: 1.5rem;
+}
+
+.metric-value-large {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1f2937;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.metric-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.metric-sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.metric-sub-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.metric-sub-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
 .transaction-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -348,4 +403,76 @@ table th {
     .rate-panels {
         grid-template-columns: 1fr;
     }
+}
+
+/* Styling for missing/warning values */
+.text-warning {
+    color: #f59e0b;
+    font-weight: bold;
+}
+
+.text-missing {
+    color: #dc3545;
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Form section styling */
+.form-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.form-section h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.form-section .field.required label {
+    font-weight: 600;
+}
+
+/* Percentage difference styling */
+.diff-exact {
+    color: #16a34a;
+    font-weight: 600;
+    background-color: #dcfce7;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.diff-higher {
+    color: #dc2626;
+    font-weight: 600;
+    background-color: #fef2f2;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.diff-lower {
+    color: #2563eb;
+    font-weight: 600;
+    background-color: #eff6ff;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.diff-missing {
+    color: #f59e0b;
+    font-weight: 600;
+    font-style: italic;
+    background-color: #fef3c7;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.diff-no_visa {
+    color: #6b7280;
+    font-weight: normal;
+    font-style: italic;
 }

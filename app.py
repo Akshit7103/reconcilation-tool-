@@ -76,13 +76,15 @@ def rates_file():
             international_path = save_uploaded_file(request.files.get("international_file"), temp_dir)
             domestic_path = save_uploaded_file(request.files.get("domestic_file"), temp_dir)
             dispute_path = save_uploaded_file(request.files.get("dispute_file"), temp_dir)
+            invoice_path = save_uploaded_file(request.files.get("invoice_file"), temp_dir)
 
             file_paths = {
                 "summary": summary_path,
                 "card": card_path,
                 "international": international_path,
                 "domestic": domestic_path,
-                "dispute": dispute_path
+                "dispute": dispute_path,
+                "invoice": invoice_path
             }
 
             report = run_rate_analysis(file_paths)
@@ -121,5 +123,6 @@ def internal_error(error):
     return render_template("error.html", error="Internal server error"), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
 
